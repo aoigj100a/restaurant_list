@@ -10,7 +10,7 @@
 ## 安裝與執行步驟 (Installation and Execution)
 1. 將專案複製到本機 (兩種方法)
 > (1) 打開終端機輸入 
-`git clone https://`</br>
+`git clone https://https://github.com/aoigj100a/restaurant_list`</br>
 (2) 點選 download ZIP 下載
 
 2. 進入專案資料夾安裝工具包
