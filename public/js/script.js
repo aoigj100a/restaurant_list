@@ -1,4 +1,6 @@
-// 回到頂端
+$(document).ready(function () {
+
+    // 回到頂端
 jsBackToTop.addEventListener("click", ()=>{
     $('html, body').animate({ scrollTop: 0 }, 200);
 }, true);
@@ -9,3 +11,4 @@ star.addEventListener("click",()=>{
     $('#star').toggleClass('un-like')
 })
 
+});

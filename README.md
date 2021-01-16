@@ -2,10 +2,10 @@
 使用者可以透過搜尋餐廳名稱、類別、甚至地址，來找到特定的餐廳，並且閱讀詳細資訊。
 
 ## 環境建置與需求
-1. Node.js v14.15.4
+1. Node.js v12.19.0
 2. Express v4.17.1
 3. Express-handlebars v5.2.0
-4. Nodemon 2.0.7
+4. Nodemon 2.0.6
 
 ## 安裝與執行步驟 (Installation and Execution)
 1. 將專案複製到本機 (兩種方法)
@@ -30,3 +30,7 @@
 ## 功能描述 (Features)
 1. 查詢餐廳詳細資訊
 2. 關鍵字搜尋餐廳
+
+## 專案開發人員
+
+> [AOI](https://github.com/aoigj100a)

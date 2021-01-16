@@ -1,3 +1,51 @@
+/* 返回頂部鈕 */
+
+.back-to-top {
+  position: fixed;
+  bottom: 20px;
+  right: 30px;
+  border: 1px solid #2c2c2c;
+  outline: none;
+  background-color: #fff;
+  color: #2c2c2c;
+  cursor: pointer;
+  padding: 10px 15px 15px 15px;
+  border-radius: 8px;
+}
+
+/* 返回頂部鈕 滑過反轉顏色 */
+
+.back-to-top:hover {
+  background-color: #2c2c2c;
+  color: #fff;
+}
+
+/* 表單 */
+
+.form-horizontal {
+  margin: 0 20px;
+}
+
+/* 收藏 */
+
+.un-like {
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  background-color: #ccc;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  cursor: pointer;
+}
+
+.like{
+  display: inline-block;
+  width: 40px;
+  height: 40px;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  cursor: pointer;
+  background-color: #e23e3e;
+}
+
 header {
   overflow: hidden;
 }
