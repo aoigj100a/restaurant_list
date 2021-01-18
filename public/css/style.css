@@ -46,6 +46,12 @@
   background-color: #e23e3e;
 }
 
+.line {
+  background-color: #CFD8DC;
+  height: 1px;
+  width: 100%
+}
+
 header {
   overflow: hidden;
 }
@@ -109,8 +115,8 @@ header {
 
 @media (min-width: 576px) {
   .my-card-columns {
-    column-count: 4;
-    column-gap: 1rem;
+    column-count: 3;
+    column-gap: 1.25rem;
     orphans: 1;
     widows: 1;
   }
