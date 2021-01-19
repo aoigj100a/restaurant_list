@@ -2,7 +2,7 @@ const express = require('express')
 const app = express()
 const port = 3000
 
-// 1.載入 mongoose
+//載入 mongoose
 const mongoose = require('mongoose') 
 
 //1.載入bodyParser 2.使用bodyParser轉碼
@@ -19,6 +19,20 @@ app.use(express.static('public'))
 
 //載入餐廳資料
 const restaurantList = require('./restaurant.json')
+
+//1.資料庫連線 加入使用新解析器設定
+mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true, useUnifiedTopology: true })
+//2.造連線物件(用以查看連線是否異常)
+const db = mongoose.connection
+//3.檢查連線是否正常
+// 連線異常
+db.on('error', () => {
+    console.log('mongodb 錯誤!')
+  })
+  // 連線成功
+  db.once('open', () => {
+    console.log('mongodb 連線了!')
+  })
 
 //路由設定開始
 //首頁
@@ -48,7 +62,6 @@ app.get('/search', (req, res) => {
     //1.去index.handlebars 修改搜尋吧 使網址出現？與值
     //2.取得網址列中 ? 後的內容用於篩選資料
     //3.優化使用者體驗
-
     const kw = req.query.keyword
 
     const restaurants = restaurantList.results.filter(odj => {
