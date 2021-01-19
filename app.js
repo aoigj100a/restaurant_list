@@ -24,11 +24,9 @@ const restaurantList = require('./restaurant.json')
 // 載入 model
 const List = require('./models/list') 
 
-//1.資料庫連線 加入使用新解析器設定
+//1.資料庫連線 加入使用新解析器設定 2.造連線物件(用以查看連線是否異常) 3.檢查連線是否正常
 mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true, useUnifiedTopology: true })
-//2.造連線物件(用以查看連線是否異常)
 const db = mongoose.connection
-//3.檢查連線是否正常
 // 連線異常
 db.on('error', () => {
     console.log('mongodb 錯誤!')
@@ -41,6 +39,7 @@ db.on('error', () => {
 //路由設定開始
 //首頁
 app.get('/', (req, res) => {
+    
     List.find().lean()
     .then( lists =>res.render('index', { lists }))
     .catch( err => console.log(err) )
@@ -48,14 +47,10 @@ app.get('/', (req, res) => {
 
 //餐廳資訊
 app.get('/show/:no', (req, res) => {
-    //1.放上靜態網站 並使用params（動態路由）使得/show/後面放任意字都不出現錯誤
-    //2.去抓json 使用篩選器篩選出要顯示的資料(function記得要傳回值！！！)
-    //3.去show.handlebars 印出資料
 
-    const restaurants = restaurantList.results.find(function (odj) {
-        return odj.id.toString() === req.params.no
-    })
-    res.render('show', { restaurants: restaurants })
+    List.findOne({id : req.params.no }).lean()
+    .then( lists =>res.render('show', { lists }))
+    .catch( err => console.log(err) )
 
 })
 
