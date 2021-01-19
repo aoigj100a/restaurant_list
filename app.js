@@ -2,23 +2,27 @@ const express = require('express')
 const app = express()
 const port = 3000
 
+const exphbs = require('express-handlebars')
+app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
+app.set('view engine', 'hbs')
+
 //載入 mongoose
 const mongoose = require('mongoose') 
+mongoose.set('useCreateIndex', true);
 
 //1.載入bodyParser 2.使用bodyParser轉碼
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
 
-//1.載入樣板引擎 2.啟動引擎 3.設定引擎
-const exphbs = require('express-handlebars')
-app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
-app.set('view engine', 'hbs')
 
 //告訴expres靜態資源都放在public
 app.use(express.static('public'))
 
 //載入餐廳資料
 const restaurantList = require('./restaurant.json')
+
+// 載入 model
+const List = require('./models/list') 
 
 //1.資料庫連線 加入使用新解析器設定
 mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true, useUnifiedTopology: true })
@@ -37,11 +41,9 @@ db.on('error', () => {
 //路由設定開始
 //首頁
 app.get('/', (req, res) => {
-    //1.放上靜態網站 2.去抓json 
-    //3.去index.handlebars使用樣版引擎把資料用迴圈印出來(忘記forEach與this...)
-
-    // res.send('測試餐廳搜尋網頁首頁')
-    res.render('index', { restaurants: restaurantList.results })
+    List.find().lean()
+    .then( lists =>res.render('index', { lists }))
+    .catch( err => console.log(err) )
 })
 
 //餐廳資訊
