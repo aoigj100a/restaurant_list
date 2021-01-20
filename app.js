@@ -6,6 +6,10 @@ const exphbs = require('express-handlebars')
 app.engine('hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', 'hbs')
 
+//1.載入路由 2.使用路由
+const routes = require('./routes/routes')
+app.use(routes)
+
 //載入 mongoose
 const mongoose = require('mongoose') 
 mongoose.set('useCreateIndex', true);
@@ -18,12 +22,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 //告訴expres靜態資源都放在public
 app.use(express.static('public'))
 
-//載入餐廳資料
-const restaurantList = require('./restaurant.json')
-
-// 載入 model
-const List = require('./models/list') 
-
 //1.資料庫連線 加入使用新解析器設定 2.造連線物件(用以查看連線是否異常) 3.檢查連線是否正常
 mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
@@ -35,39 +33,6 @@ db.on('error', () => {
   db.once('open', () => {
     console.log('mongodb 連線了!')
   })
-
-//路由設定開始
-//首頁
-app.get('/', (req, res) => {
-    
-    List.find().lean()
-    .then( lists =>res.render('index', { lists }))
-    .catch( err => console.log(err) )
-})
-
-//餐廳資訊
-app.get('/show/:no', (req, res) => {
-
-    List.findOne({id : req.params.no }).lean()
-    .then( lists =>res.render('show', { lists }))
-    .catch( err => console.log(err) )
-
-})
-
-//搜尋結果
-app.get('/search', (req, res) => {
-    //1.去index.handlebars 修改搜尋吧 使網址出現？與值
-    //2.取得網址列中 ? 後的內容用於篩選資料
-    //3.優化使用者體驗
-    const kw = req.query.keyword
-
-    const restaurants = restaurantList.results.filter(odj => {
-        const allin = odj.name.concat(odj.category).concat(odj.name_en).concat(odj.location)
-        const compar = allin.toLowerCase().includes(kw.toLowerCase())
-        return compar
-    })
-    res.render('index', { restaurants: restaurants, keyword: kw })
-})
 
 app.listen(port, () => {
     console.log(`已經連線到http://localhost:${port}`)
