@@ -1,10 +1,8 @@
 const express = require('express')
-
 //載入express路由
 const router = express.Router()
 // 載入 model
 const List = require('../models/list')
-
 //載入餐廳資料
 const restaurantList = require('../restaurant.json')
 
@@ -28,17 +26,21 @@ router.get('/show/:no', (req, res) => {
 
 //搜尋結果
 router.get('/search', (req, res) => {
-    //1.去index.handlebars 修改搜尋吧 使網址出現？與值
-    //2.取得網址列中 ? 後的內容用於篩選資料
-    //3.優化使用者體驗
     const kw = req.query.keyword
-
-    const restaurants = restaurantList.results.filter(odj => {
-        const allin = odj.name.concat(odj.category).concat(odj.name_en).concat(odj.location)
-        const compar = allin.toLowerCase().includes(kw.toLowerCase())
-        return compar
-    })
-    res.render('index', { restaurants: restaurants, keyword: kw })
+    //1.用 find 取得資料庫資料 2.return回篩選資料 3.去畫面印出
+    return List.find({
+        //or是只要符合一項就撈出 記得必須加$....
+        //regex為規則 用options添加參數
+        "$or":[
+            { "name": { $regex: `${kw}`, $options: '$i' } },
+            { "name_en": { $regex: `${kw}`, $options: '$i' } },
+            { "category": { $regex: `${kw}`, $options: '$i' } },
+            { "location": { $regex: `${kw}`, $options: '$i' } }
+          ]
+    }).lean()
+    .then( lists => res.render('index', { lists, keyword: kw }))
 })
+
+
 
 module.exports = router

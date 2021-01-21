@@ -10,7 +10,7 @@ app.set('view engine', 'hbs')
 const routes = require('./routes/routes')
 app.use(routes)
 
-//載入 mongoose
+//1.載入 mongoose 2.設定 mongoose
 const mongoose = require('mongoose') 
 mongoose.set('useCreateIndex', true);
 
@@ -18,11 +18,10 @@ mongoose.set('useCreateIndex', true);
 const bodyParser = require('body-parser')
 app.use(bodyParser.urlencoded({ extended: true }))
 
-
 //告訴expres靜態資源都放在public
 app.use(express.static('public'))
 
-//1.資料庫連線 加入使用新解析器設定 2.造連線物件(用以查看連線是否異常) 3.檢查連線是否正常
+//1.資料庫連線 設定使用新解析器設定 2.造連線物件(用以查看連線是否異常) 3.檢查連線是否正常
 mongoose.connect('mongodb://localhost/restaurant_list', { useNewUrlParser: true, useUnifiedTopology: true })
 const db = mongoose.connection
 // 連線異常
