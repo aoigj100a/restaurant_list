@@ -41,6 +41,19 @@ router.get('/search', (req, res) => {
     .then( lists => res.render('index', { lists, keyword: kw }))
 })
 
+//CRUD
+router.get('/edit',(req, res)=>{
+    res.render('edit')
+})
+
+router.get('/new',(req, res)=>{
+    res.render('new')
+})
+
+router.get('/delete',(req, res)=>{
+    res.render('delete')
+})
+
 
 
 module.exports = router

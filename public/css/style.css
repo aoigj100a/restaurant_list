@@ -52,6 +52,10 @@
   width: 100%
 }
 
+.my-input {
+  width: 300px;
+}
+
 header {
   overflow: hidden;
 }

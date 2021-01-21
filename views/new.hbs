@@ -1,0 +1,102 @@
+<h1 class="mb-1 restaurant-show-title">新增餐廳資訊</h1>
+
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <form class="form-horizontal mx-5" action='/edit' method="POST">
+        <fieldset id="tab011 ">
+          <div class="control-group pb-4">
+            <!-- 餐廳中文名稱 -->
+            <label class="control-label h5 col" for="name">中文名稱：</label>
+            <div class="controls col-6">
+              <input type="text" id="name" name="name" placeholder="" class="my-input  form-control">
+              <span class="text-secondary">請輸入中文。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳英文名稱 -->
+            <label class="control-label h5 col" for="name_en">英文名稱：</label>
+            <div class="controls col-6">
+              <input type="text" id="name_en" name="name_en" placeholder="" class="my-input form-control ">
+              <span class="text-secondary">請輸入英文。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳種類 -->
+            <label class="control-label h5 col" for="category">種類：</label>
+            <div class="controls col-6">
+              <input type="text" id="category" name="category" placeholder="" class="my-input form-control">
+              <span class="text-secondary">選取種類。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳照片 -->
+            <label class="control-label h5 col" for="image">上傳照片：</label>
+            <div class="controls col-6">
+              <input type="file" id="image" name="image" placeholder="" class="my-input form-control">
+              <span class="text-secondary">請上傳一張照片。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳地址 -->
+            <label class="control-label h5 col" for="location">地址：</label>
+            <div class="controls col">
+              <input type="text" id="location" name="location" placeholder="" class="my-input form-control">
+              <span class="text-secondary">輸入完整地址。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳電話 -->
+            <label class="control-label h5 col" for="phone">電話：</label>
+            <div class="controls col-6">
+              <input type="text" id="phone" name="phone" placeholder="" class="my-input form-control">
+              <span class="text-secondary">輸入完整室內電話。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳google map -->
+            <label class="control-label h5 col" for="google_map">google map：</label>
+            <div class="controls col">
+              <input type="text" id="google_map" name="google_map" placeholder="" class="my-input form-control">
+              <span class="text-secondary">輸入完整google map位址。</span>
+            </div>
+          </div>
+
+          <div class="control-group pb-4">
+            <!-- 餐廳星數 -->
+            <label class="control-label h5 col" for="rating">星數：</label>
+            <div class="controls col-6">
+              <input type="text" id="rating" name="rating" placeholder="" class="my-input form-control">
+              <span class="text-secondary">選取數值。</span>
+            </div>
+          </div>
+
+
+          <div class="control-group pb-4">
+            <!-- 餐廳詳細資訊 -->
+            <label class="control-label h5 col" for="rating">詳細資訊：</label>
+            <div class="controls col">
+              <input type="text" id="rating" name="rating" placeholder="" class="my-input form-control">
+              <span class="text-secondary">輸入詳細資訊。</span>
+            </div>
+          </div>
+          <div class="control-group pb-4">
+            <div class="controls col">
+              <input type="submit" class="btn btn-success" value="確定送出">
+            </div>
+          </div>
+        </fieldset>
+    </div>
+
+    </form>
+
+
+  </div>
+</div>
+</div>
