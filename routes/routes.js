@@ -25,16 +25,16 @@ router.get('/show/:no', (req, res) => {
 
 //搜尋結果
 router.get('/search', (req, res) => {
-    const kw = req.query.keyword
+    const keyword = req.query.keyword
     //1.用 find 取得資料庫資料 2.return回篩選資料 3.去畫面印出
     return List.find({
         //or是只要符合一項就撈出 記得必須加$....
         //regex為規則 用options添加參數
         "$or": [
-            { "name": { $regex: `${kw}`, $options: '$i' } },
-            { "name_en": { $regex: `${kw}`, $options: '$i' } },
-            { "category": { $regex: `${kw}`, $options: '$i' } },
-            { "location": { $regex: `${kw}`, $options: '$i' } }
+            { "name": { $regex: `${keyword}`, $options: '$i' } },
+            { "name_en": { $regex: `${keyword}`, $options: '$i' } },
+            { "category": { $regex: `${keyword}`, $options: '$i' } },
+            { "location": { $regex: `${keyword}`, $options: '$i' } }
         ]
     }).lean()
         .then(lists => res.render('index', { lists, keyword: kw }))
