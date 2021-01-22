@@ -2,9 +2,16 @@
 
 <div class="container">
   <div class="row">
-    
-    
-    <h2>確定要刪除嗎?</h2>
+
+
+    <h2>確定要刪除【{{lists.name}}】嗎?</h2>
+    <form action="/action/{{lists.id}}/delete/y" method="POST">
+      <div class="control-group pb-4">
+        <div class="controls col">
+          <input type="submit" class="btn btn-success" value="確定">
+        </div>
+      </div>
+    </form>
 
 
   </div>
