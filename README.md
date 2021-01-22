@@ -11,7 +11,7 @@
 ## 安裝與執行步驟 (Installation and Execution)
 1. 將專案複製到本機 (兩種方法)
 > (1) 打開終端機輸入 
-`git clone https://github.com/aoigj100a/restaurant_list`</br>
+`git clone https://github.com/aoigj100a/restaurant_list/tree/restaurant-list-CRUD`</br>
 (2) 點選 download ZIP 下載
 
 2. 進入專案資料夾安裝工具包
@@ -25,11 +25,7 @@
 
 
 4. 使用瀏覽器瀏覽
-<<<<<<< HEAD
-> 打開瀏覽器在網址列輸入 localhost:3000 即可瀏覽
-=======
 > 打開瀏覽器在網址列輸入 https://localhost:3000 即可瀏覽
->>>>>>> d2494e553728898297b73a60f43594d320040b4f
 
 
 ## 功能描述 (Features)
