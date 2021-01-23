@@ -73,13 +73,20 @@ router.post('/action/:no/edit', (req, res) => {
     const id = req.params.no
     const {  name, name_en, category, image, location, phone, google_map, rating, description } = req.body
     return List.findOne({ id: req.params.no })
-    //使用 for in 閱覽 lists 的 key屬性名
         .then(lists => {
-            for(const key in lists){
-                lists.key = key
-            }
+            lists.name = name
+            lists.name_en = name_en
+            lists.category = category
+            lists.image = image
+            lists.location = location
+            lists.phone = phone
+            lists.google_map = google_map
+            lists.rating = rating
+            lists.description = description
+      
             return lists.save()
-        }).then(()=> res.redirect(`/show/${id}`))
+        })
+        .then(()=> res.redirect(`/show/${id}`))
         .catch(error => console.log(error))
 })
 
@@ -99,7 +106,5 @@ router.post('/action/:no/delete/y',(req,res)=>{
     .then(() => res.redirect('/'))
     .catch(error => console.log(error))
 })
-
-
 
 module.exports = router
