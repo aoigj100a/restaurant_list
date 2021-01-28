@@ -2,3 +2,4 @@
 /demo
 .DS_Store
 .vscode
+.gitignore

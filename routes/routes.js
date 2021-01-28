@@ -4,13 +4,41 @@ const router = express.Router()
 // 載入 model
 const List = require('../models/list')
 
+const multer = require('multer')
+const fs = require('fs')
+const { id } = require('../config/db')
+
+let myStorage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, "public/img/uploads");
+    },
+    filename: function (req, file, cb) {
+        cb(null, Date.now() + '-' + file.originalname);
+    }
+});
+
+
+
+let upload = multer({
+    storage: myStorage,
+    fileFilter: function (req, file, cb) {
+        // if (file.mimetype != 'image/gif') {
+        //     return cb(new Error('Wrong file type'));
+        // }
+        cb(null, true)
+    }
+});
 
 //路由設定開始
 //首頁
 router.get('/', (req, res) => {
 
     List.find().lean()
-        .then(lists => res.render('index', { lists }))
+        .then((lists) => {
+            console.log(lists)
+            // lists.image = lists.image.replace('public', "")
+            return res.render('index', { lists })
+        })
         .catch(err => console.log(err))
 })
 
@@ -20,7 +48,6 @@ router.get('/show/:no', (req, res) => {
     List.findOne({ id: req.params.no }).lean()
         .then(lists => res.render('show', { lists }))
         .catch(err => console.log(err))
-
 })
 
 //搜尋結果
@@ -46,15 +73,17 @@ router.get('/action/new', (req, res) => {
     res.render('new')
 })
 // 路線 /action 1.做新增 2.導回首頁
-router.post('/action', async function (req, res) {
-    // console.log(req.body)
+router.post('/action', upload.single('image'), async function (req, res) {
+    console.log(req.body)
+    console.log(req.file.path)
     //取得總文件數量
     //原本 ||  MyModel.findOne({}).then()
     //如果你使用await || await MyModel.findOne({}).exec() 
     const count = await List.countDocuments({}).exec();
     const id = count + 1
-
-    const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+    //image: 目前沒有取得任何值
+    const image = req.file.path.replace('public', "")
+    const { name, name_en, category, location, phone, google_map, rating, description } = req.body
     return List.create({ id, name, name_en, category, image, location, phone, google_map, rating, description })
         .then(() => res.redirect('/'))
         .catch(error => console.log(error))
@@ -62,16 +91,16 @@ router.post('/action', async function (req, res) {
 
 //路線edit
 router.get('/action/:no/edit', (req, res) => {
-    
+
     List.findOne({ id: req.params.no }).lean()
         .then(lists => res.render('edit', { lists }))
         .catch(err => console.log(err))
 
 })
-router.post('/action/:no/edit', (req, res) => {
+router.post('/action/:no/edit', upload.single('image'), (req, res) => {
     // console.log(req.params.no)
     const id = req.params.no
-    const {  name, name_en, category, image, location, phone, google_map, rating, description } = req.body
+    const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
     return List.findOne({ id: req.params.no })
         .then(lists => {
             lists.name = name
@@ -83,28 +112,27 @@ router.post('/action/:no/edit', (req, res) => {
             lists.google_map = google_map
             lists.rating = rating
             lists.description = description
-      
             return lists.save()
         })
-        .then(()=> res.redirect(`/show/${id}`))
+        .then(() => res.redirect(`/show/${id}`))
         .catch(error => console.log(error))
 })
 
 
 router.get('/action/:no/delete', (req, res) => {
     List.findOne({ id: req.params.no }).lean()
-    .then(lists => res.render('delete', { lists }))
-    .catch(err => console.log(err))
+        .then(lists => res.render('delete', { lists }))
+        .catch(err => console.log(err))
 
 })
 
-router.post('/action/:no/delete/y',(req,res)=>{
+router.post('/action/:no/delete/y', (req, res) => {
     // res.send('delete')
     const id = req.params.no
     List.findOne({ id: id })
-    .then(lists => lists.remove())
-    .then(() => res.redirect('/'))
-    .catch(error => console.log(error))
+        .then(lists => lists.remove())
+        .then(() => res.redirect('/'))
+        .catch(error => console.log(error))
 })
 
 module.exports = router
