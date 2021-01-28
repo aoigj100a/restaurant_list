@@ -5,9 +5,6 @@ const router = express.Router()
 const List = require('../models/list')
 
 const multer = require('multer')
-const fs = require('fs')
-const { id } = require('../config/db')
-
 let myStorage = multer.diskStorage({
     destination: function (req, file, cb) {
         cb(null, "public/img/uploads");
@@ -16,8 +13,6 @@ let myStorage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname);
     }
 });
-
-
 
 let upload = multer({
     storage: myStorage,
@@ -64,7 +59,7 @@ router.get('/search', (req, res) => {
             { "location": { $regex: `${keyword}`, $options: '$i' } }
         ]
     }).lean()
-        .then(lists => res.render('index', { lists, keyword: kw }))
+        .then(lists => res.render('index', { lists, keyword: keyword }))
 })
 
 //CRUD
@@ -74,14 +69,11 @@ router.get('/action/new', (req, res) => {
 })
 // 路線 /action 1.做新增 2.導回首頁
 router.post('/action', upload.single('image'), async function (req, res) {
-    console.log(req.body)
-    console.log(req.file.path)
     //取得總文件數量
     //原本 ||  MyModel.findOne({}).then()
     //如果你使用await || await MyModel.findOne({}).exec() 
     const count = await List.countDocuments({}).exec();
     const id = count + 1
-    //image: 目前沒有取得任何值
     const image = req.file.path.replace('public', "")
     const { name, name_en, category, location, phone, google_map, rating, description } = req.body
     return List.create({ id, name, name_en, category, image, location, phone, google_map, rating, description })
@@ -97,7 +89,7 @@ router.get('/action/:no/edit', (req, res) => {
         .catch(err => console.log(err))
 
 })
-router.post('/action/:no/edit', upload.single('image'), (req, res) => {
+router.post('/action/:no/edit', (req, res) => {
     // console.log(req.params.no)
     const id = req.params.no
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
@@ -127,7 +119,6 @@ router.get('/action/:no/delete', (req, res) => {
 })
 
 router.post('/action/:no/delete/y', (req, res) => {
-    // res.send('delete')
     const id = req.params.no
     List.findOne({ id: id })
         .then(lists => lists.remove())
