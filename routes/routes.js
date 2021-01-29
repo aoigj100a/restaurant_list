@@ -4,6 +4,7 @@ const router = express.Router()
 // 載入 model
 const List = require('../models/list')
 
+//1.載入 multer 設定本地儲存區
 const multer = require('multer')
 let myStorage = multer.diskStorage({
     destination: function (req, file, cb) {
@@ -13,7 +14,7 @@ let myStorage = multer.diskStorage({
         cb(null, Date.now() + '-' + file.originalname);
     }
 });
-
+//設定上傳物件
 let upload = multer({
     storage: myStorage,
     fileFilter: function (req, file, cb) {
@@ -29,11 +30,9 @@ let upload = multer({
 router.get('/', (req, res) => {
 
     List.find().lean()
-        .then((lists) => {
-            console.log(lists)
-            // lists.image = lists.image.replace('public', "")
-            return res.render('index', { lists })
-        })
+        .then(lists =>
+            res.render('index', { lists })
+        )
         .catch(err => console.log(err))
 })
 
@@ -82,14 +81,14 @@ router.post('/action', upload.single('image'), async function (req, res) {
 })
 
 //路線edit
-router.get('/action/:no/edit', (req, res) => {
+router.get('/action/:no', (req, res) => {
 
     List.findOne({ id: req.params.no }).lean()
         .then(lists => res.render('edit', { lists }))
         .catch(err => console.log(err))
 
 })
-router.post('/action/:no/edit', (req, res) => {
+router.put('/action/:no', (req, res) => {
     // console.log(req.params.no)
     const id = req.params.no
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
@@ -111,14 +110,14 @@ router.post('/action/:no/edit', (req, res) => {
 })
 
 
-router.get('/action/:no/delete', (req, res) => {
+router.get('/action/:no', (req, res) => {
     List.findOne({ id: req.params.no }).lean()
         .then(lists => res.render('delete', { lists }))
         .catch(err => console.log(err))
 
 })
 
-router.post('/action/:no/delete/y', (req, res) => {
+router.delete('/action/:no/y', (req, res) => {
     const id = req.params.no
     List.findOne({ id: id })
         .then(lists => lists.remove())

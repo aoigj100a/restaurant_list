@@ -19,6 +19,11 @@ app.use(express.static('public'))
 //取得已寫好的連線物件
 require('./config/db')
 
+// 載入 method-override
+const methodOverride = require('method-override') 
+// 設定每一筆請求都會透過 methodOverride 進行前置處理
+app.use(methodOverride('_method'))
+
   //1.載入路由 2.使用路由
 const routes = require('./routes/routes')
 app.use(routes)
