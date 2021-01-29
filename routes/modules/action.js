@@ -2,7 +2,7 @@ const express = require('express')
 //載入express路由
 const router = express.Router()
 // 載入 model
-const List = require('../models/list')
+const List = require('../../models/list')
 
 //1.載入 multer 設定本地儲存區
 const multer = require('multer')
@@ -25,49 +25,13 @@ let upload = multer({
     }
 });
 
-//路由設定開始
-//首頁
-router.get('/', (req, res) => {
-
-    List.find().lean()
-        .then(lists =>
-            res.render('index', { lists })
-        )
-        .catch(err => console.log(err))
-})
-
-//餐廳資訊
-router.get('/show/:no', (req, res) => {
-
-    List.findOne({ id: req.params.no }).lean()
-        .then(lists => res.render('show', { lists }))
-        .catch(err => console.log(err))
-})
-
-//搜尋結果
-router.get('/search', (req, res) => {
-    const keyword = req.query.keyword
-    //1.用 find 取得資料庫資料 2.return回篩選資料 3.去畫面印出
-    return List.find({
-        //or是只要符合一項就撈出 記得必須加$....
-        //regex為規則 用options添加參數
-        "$or": [
-            { "name": { $regex: `${keyword}`, $options: '$i' } },
-            { "name_en": { $regex: `${keyword}`, $options: '$i' } },
-            { "category": { $regex: `${keyword}`, $options: '$i' } },
-            { "location": { $regex: `${keyword}`, $options: '$i' } }
-        ]
-    }).lean()
-        .then(lists => res.render('index', { lists, keyword: keyword }))
-})
-
 //CRUD
 //路線 /action/new 顯示新增的畫面 目前沒有做別的事
-router.get('/action/new', (req, res) => {
+router.get('/new', (req, res) => {
     res.render('new')
 })
 // 路線 /action 1.做新增 2.導回首頁
-router.post('/action', upload.single('image'), async function (req, res) {
+router.post('/', upload.single('image'), async function (req, res) {
     //取得總文件數量
     //原本 ||  MyModel.findOne({}).then()
     //如果你使用await || await MyModel.findOne({}).exec() 
@@ -81,14 +45,14 @@ router.post('/action', upload.single('image'), async function (req, res) {
 })
 
 //路線edit
-router.get('/action/:no', (req, res) => {
+router.get('/:no', (req, res) => {
 
     List.findOne({ id: req.params.no }).lean()
         .then(lists => res.render('edit', { lists }))
         .catch(err => console.log(err))
 
 })
-router.put('/action/:no', (req, res) => {
+router.put('/:no', (req, res) => {
     // console.log(req.params.no)
     const id = req.params.no
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
@@ -110,14 +74,14 @@ router.put('/action/:no', (req, res) => {
 })
 
 
-router.get('/action/:no', (req, res) => {
+router.get('/delete/:no', (req, res) => {
     List.findOne({ id: req.params.no }).lean()
         .then(lists => res.render('delete', { lists }))
         .catch(err => console.log(err))
 
 })
 
-router.delete('/action/:no/y', (req, res) => {
+router.delete('/delete/:no/y', (req, res) => {
     const id = req.params.no
     List.findOne({ id: id })
         .then(lists => lists.remove())

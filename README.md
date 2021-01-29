@@ -6,7 +6,10 @@
 1. Node.js v12.19.0
 2. Express v4.17.1
 3. Express-handlebars v5.2.0
-4. Nodemon 2.0.6
+4. Nodemon v2.0.6
+5. multer v1.4.2
+6. mongoose v5.11.12
+7. method-override v3.0.0
 
 ## 安裝與執行步驟 (Installation and Execution)
 1. 將專案複製到本機 (兩種方法)
@@ -33,8 +36,6 @@
 2. 關鍵字搜尋餐廳
 3. 使用者可以新增餐廳、修改餐廳資訊、刪除已有餐廳
 
-## 預定未來更新項目
-1. 修復上傳圖片檔案(express + multer)
 
 ## 專案開發人員
 

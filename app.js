@@ -25,7 +25,7 @@ const methodOverride = require('method-override')
 app.use(methodOverride('_method'))
 
   //1.載入路由 2.使用路由
-const routes = require('./routes/routes')
+const routes = require('./routes')
 app.use(routes)
 
 app.listen(port, () => {
