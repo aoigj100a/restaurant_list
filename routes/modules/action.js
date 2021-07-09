@@ -57,7 +57,7 @@ router.put('/:no', (req, res) => {
     const id = req.params.no
     const { name, name_en, category, image, location, phone, google_map, rating, description } = req.body
     return List.findOne({ id: req.params.no })
-        .then(lists => {
+        .then(lists => {  
             lists.name = name
             lists.name_en = name_en
             lists.category = category

@@ -13,9 +13,8 @@ db.once('open', () => {
     List.insertMany(restaurantList, function (err, docs) {
         if (err) {
             console.log(err);
-        }else{
+        } else {
             console.log('儲存成功:', docs)
         }
-    });
-    console.log('done')
+    })
 })
